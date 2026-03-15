@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambah Mahasiswa</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container small-container">
+    <header class="page-header">
+      <div class="header-back">
+        <a href="/" class="btn-back" title="Kembali">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </a>
+        <div>
+          <h2>Tambah Mahasiswa Baru</h2>
+          <p class="subtitle">Isi form di bawah ini dengan lengkap</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="card form-card glow-effect">
+      <form action="/create" method="POST" class="std-form">
+        <div class="form-group">
+          <label for="nim">NIM</label>
+          <input type="text" id="nim" name="nim" class="form-control" required placeholder="Contoh: 10101010">
+        </div>
+        
+        <div class="form-group">
+          <label for="nama">Nama Lengkap</label>
+          <input type="text" id="nama" name="nama" class="form-control" required placeholder="Masukkan nama lengkap">
+        </div>
+
+        <div class="form-group">
+          <label for="jurusan">Program Studi / Jurusan</label>
+          <div class="select-wrapper">
+            <select id="jurusan" name="jurusan" class="form-control" required>
+              <option value="" disabled selected>Pilih Program Studi...</option>
+              <option value="Teknik Informatika">Teknik Informatika</option>
+              <option value="Sistem Informasi">Sistem Informasi</option>
+              <option value="Manajemen Bisnis">Manajemen Bisnis</option>
+              <option value="Akuntansi">Akuntansi</option>
+              <option value="Desain Komunikasi Visual">Desain Komunikasi Visual</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="angkatan">Tahun Angkatan</label>
+          <input type="number" id="angkatan" name="angkatan" class="form-control" required min="2000" max="2100" placeholder="Contoh: 2023">
+        </div>
+
+        <div class="form-actions mt-4">
+          <a href="/" class="btn btn-secondary">Batal</a>
+          <button type="submit" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            Simpan Data
+          </button>
+        </div>
+      </form>
+    </main>
+  </div>
+</body>
+</html>
