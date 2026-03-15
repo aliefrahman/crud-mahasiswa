@@ -4,69 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Mahasiswa</title>
-  <link rel="stylesheet" href="/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-inter: 'Inter', system-ui, sans-serif;
+    }
+    body {
+      font-family: var(--font-inter);
+      background-image: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+                        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
+      background-attachment: fixed;
+    }
+  </style>
 </head>
-<body>
-  <div class="container">
-    <header class="page-header">
+<body class="bg-slate-900 text-slate-50 min-h-screen antialiased">
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 pb-6 border-b border-white/10 gap-6 sm:gap-0">
       <div>
-        <h1>Sistem Akademik</h1>
-        <p class="subtitle">Manajemen Data Mahasiswa Terpadu</p>
+        <h1 class="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent mb-1">
+          Sistem Akademik
+        </h1>
+        <p class="text-slate-400 text-base">Manajemen Data Mahasiswa Terpadu</p>
       </div>
-      <a href="/create" class="btn btn-primary">
+      <a href="/create" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-white bg-gradient-to-br from-blue-500 to-violet-500 hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(59,130,246,0.5)] hover:shadow-[0_6px_20px_0_rgba(139,92,246,0.4)] transition-all duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
         Tambah Mahasiswa
       </a>
     </header>
 
-    <main class="card glow-effect">
-      <div class="table-responsive">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>NIM</th>
-              <th>Nama Lengkap</th>
-              <th>Jurusan</th>
-              <th>Angkatan</th>
-              <th class="actions-col">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (mahasiswa && mahasiswa.length > 0) { %>
-              <% mahasiswa.forEach((mhs) => { %>
+    <main class="relative group">
+      <div class="absolute -inset-0.5 rounded-2xl bg-gradient-to-br from-blue-500/50 to-violet-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm pointer-events-none"></div>
+      <div class="relative bg-slate-800/70 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-white/10 text-slate-400 text-sm font-semibold uppercase tracking-wider">
+                <th class="p-4">NIM</th>
+                <th class="p-4">Nama Lengkap</th>
+                <th class="p-4">Jurusan</th>
+                <th class="p-4">Angkatan</th>
+                <th class="p-4 text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/10">
+              <% if (mahasiswa && mahasiswa.length > 0) { %>
+                <% mahasiswa.forEach((mhs) => { %>
+                  <tr class="transition-colors hover:bg-white/5">
+                    <td class="p-4">
+                      <span class="inline-block px-3 py-1 rounded-full text-sm font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        <%= mhs.nim %>
+                      </span>
+                    </td>
+                    <td class="p-4"><strong class="font-medium text-slate-50"><%= mhs.nama %></strong></td>
+                    <td class="p-4 text-slate-300"><%= mhs.jurusan %></td>
+                    <td class="p-4 text-slate-300"><%= mhs.angkatan %></td>
+                    <td class="p-4">
+                      <div class="flex items-center justify-end gap-2">
+                        <a href="/edit/<%= mhs.id %>" class="p-2 rounded-lg text-slate-400 hover:bg-blue-500/10 hover:text-blue-500 transition-colors" title="Edit">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                        </a>
+                        <form action="/delete/<%= mhs.id %>" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data <%= mhs.nama %>?');">
+                          <button type="submit" class="p-2 rounded-lg text-slate-400 hover:bg-red-500/10 hover:text-red-500 hover:shadow-[0_0_10px_rgba(239,68,68,0.4)] transition-all" title="Hapus">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                          </button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
                 <tr>
-                  <td><span class="badge nim-badge"><%= mhs.nim %></span></td>
-                  <td><strong class="text-prominent"><%= mhs.nama %></strong></td>
-                  <td><%= mhs.jurusan %></td>
-                  <td><%= mhs.angkatan %></td>
-                  <td class="actions-cell">
-                    <a href="/edit/<%= mhs.id %>" class="btn btn-icon btn-edit" title="Edit">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                    </a>
-                    <form action="/delete/<%= mhs.id %>" method="POST" class="inline-form" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data <%= mhs.nama %>?');">
-                      <button type="submit" class="btn btn-icon btn-delete" title="Hapus">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-                      </button>
-                    </form>
+                  <td colspan="5" class="py-16 text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/5 text-slate-400 mb-6 border border-white/10">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Belum ada data</h3>
+                    <p class="text-slate-400">Silakan tambah data mahasiswa baru.</p>
                   </td>
                 </tr>
-              <% }); %>
-            <% } else { %>
-              <tr>
-                <td colspan="5" class="empty-state">
-                  <div class="empty-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                  </div>
-                  <h3>Belum ada data</h3>
-                  <p>Silakan tambah data mahasiswa baru.</p>
-                </td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </main>
   </div>
